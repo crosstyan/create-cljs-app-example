@@ -7,6 +7,12 @@
           :modules {:main {:init-fn app.cards/main}}
           :compiler-options {:devcards true}
           :output-dir "public/js"
+          ;; The problem is from devcards 2.7
+          ;; https://github.com/bhauman/devcards/issues/168
+          ;; Maybe the devcards is not so useful
+          ;; https://github.com/filipesilva/create-cljs-app/issues/303
+          :build-options {:ns-aliases {devcards-marked cljsjs.marked
+                                       devcards-syntax-highlighter cljsjs.highlight}}
           :target :browser}
   :test {:ns-regexp "app.cards"
          :output-to "out/test.js"
@@ -14,8 +20,10 @@
   :e2e {:ns-regexp "e2e.*"
         :output-to "out/e2e.js"
         :target :node-test}}
- :dependencies [[reagent "0.8.1"]
-                [devcards "0.2.6"]]
+ :dependencies [[reagent "1.1.1"]
+                [devcards "0.2.7"]
+                [arttuka/reagent-material-ui "5.6.2-0"]]
  :dev-http {3000 "public"}
  :nrepl {:port 3333}
- :source-paths ["src"]}
+ :source-paths ["src"]
+ }

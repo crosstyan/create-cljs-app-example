@@ -43,12 +43,17 @@
 (deftest click-counter-tests-card
   (let [atom (r/atom 0)
         element (r/as-element [click-counter atom])
+        ;; https://testing-library.com/docs/react-testing-library/intro/
         tr (render element #js {:container (testing-container)})]
+    ;; https://cljs.github.io/api/cljs.test/
     (is (.queryByText tr #"has value: 0") "Should show the initial value as '0'")
-    (.click fireEvent (.queryByText tr #"(?i)click me"))
+    (.click fireEvent (.queryByText tr #"(?i)inc"))
     (r/flush)
     (is (.queryByText tr #"has value: 1") "Should show the value as '1' after click")
-    (.click fireEvent (.queryByText tr #"(?i)click me"))
+    (.click fireEvent (.queryByText tr #"(?i)inc"))
     (r/flush)
     (is (.queryByText tr #"has value: 2") "Should show the value as '2' after two clicks")
+    (.click fireEvent (.queryByText tr #"(?i)dec"))
+    (r/flush)
+    (is (.queryByText tr #"has value: 1") "Should show the value as '1' after click dec")
     (cleanup)))
